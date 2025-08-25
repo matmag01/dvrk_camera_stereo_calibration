@@ -1,6 +1,6 @@
 # dVRK Stereo Camera Calibration
 
-This repository provides a stereo camera calibration pipeline tailored for the [da Vinci Research Kit (dVRK)](https://github.com/jhu-dvrk/dvrk](https://dvrk.readthedocs.io/main/).  
+This repository provides a stereo camera calibration pipeline tailored for the [da Vinci Research Kit (dVRK)](https://dvrk.readthedocs.io/main/).  
 It allows you to calibrate stereo endoscope cameras, save calibration results in **ROS YAML** format, and export intrinsic/extrinsic parameters to **JSON**.
 
 ## Usage
