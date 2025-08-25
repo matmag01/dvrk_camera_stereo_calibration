@@ -11,6 +11,7 @@ It allows you to calibrate stereo endoscope cameras, save calibration results in
   - ```left.yaml``` and ```right.yaml```: calibration files in ROS format
   - ```stereo_calib_params.json```: JSON file with camera matrices, distortion, R, T, E, F
  - To test, run ```stereo_calib_test.py```. This script draws equally spaced horizontal lines on the image to check epipolar alignment.
+ - You can also run the stereocalibration using [MatLab app](https://www.mathworks.com/help/vision/ug/using-the-stereo-camera-calibrator-app.html). In this case, remember to save left and right images in 2 different folder. To save parameters in json and yaml file use ```mat_to_yaml.py```.
 
 ## Credits
 This project is based on [original repository](https://github.com/jackzhy96/stereo_camera_calibration/tree/6c9a81ffd16867440bad7af3152f95f1053db2b4)
