@@ -16,5 +16,6 @@ It allows you to calibrate stereo endoscope cameras, save calibration results in
 This project is based on [original repository](https://github.com/jackzhy96/stereo_camera_calibration/tree/6c9a81ffd16867440bad7af3152f95f1053db2b4)
 - Copyright (c) 2025 Haoying (Jack) Zhou
 - Licensed under the MIT License
+  
 Modifications by Matteo Magnani (2025).
 
