@@ -13,14 +13,44 @@ dynamic_path = os.path.abspath(__file__+"/../")
 sys.path.append(dynamic_path)
 from typing import List, Tuple
 
+# def load_img(data_folder: str) -> Tuple[List[str], List[str]]:
+#     left_img_path = sorted(
+#         glob(os.path.join(data_folder, "left_*.png")),
+#         key=lambda x: int(os.path.basename(x).split('_')[1].split('.')[0])
+#     )
+#     right_img_path = sorted(
+#         glob(os.path.join(data_folder, "right_*.png")),
+#         key=lambda x: int(os.path.basename(x).split('_')[1].split('.')[0])
+#     )
+#     return left_img_path, right_img_path
+# def load_img(data_folder: str) -> Tuple[List[str], List[str]]:
+#     left_img_path = sorted(
+#         glob(os.path.join(data_folder, "*_left.jpg")),
+#         key=lambda x: int(os.path.basename(x).split('_')[0])
+#     )
+#     right_img_path = sorted(
+#         glob(os.path.join(data_folder, "*_right.jpg")),
+#         key=lambda x: int(os.path.basename(x).split('_')[0])
+#     )
+#     return left_img_path, right_img_path
 def load_img(data_folder: str) -> Tuple[List[str], List[str]]:
+    """
+    Loads and sorts image file paths from a specified folder.
+
+    Args:
+        data_folder: The path to the directory containing the images.
+
+    Returns:
+        A tuple containing two lists of sorted image paths:
+        (left_image_paths, right_image_paths).
+    """
     left_img_path = sorted(
-        glob(os.path.join(data_folder, "left_*.png")),
-        key=lambda x: int(os.path.basename(x).split('_')[1].split('.')[0])
+        glob(os.path.join(data_folder, "*_left.png")),
+        key=lambda x: int(os.path.basename(x).split('_')[0])
     )
     right_img_path = sorted(
-        glob(os.path.join(data_folder, "right_*.png")),
-        key=lambda x: int(os.path.basename(x).split('_')[1].split('.')[0])
+        glob(os.path.join(data_folder, "*_right.png")),
+        key=lambda x: int(os.path.basename(x).split('_')[0])
     )
     return left_img_path, right_img_path
 
@@ -52,7 +82,7 @@ def draw_epipolar_lines(image, num_lines=10):
     return image
 
 if __name__=='__main__':
-    data_folder = os.path.join(repo_path, "image")
+    data_folder = os.path.join(repo_path, "scripts", "image")
     left_img_path, right_img_path = load_img(data_folder)
     param_path = os.path.join(dynamic_path, 'stereo_calib_params.json')
     cameraMatrixL, distCoeffsL, cameraMatrixR, distCoeffsR, R, T, E, F = load_param(param_path)
