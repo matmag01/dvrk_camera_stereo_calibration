@@ -16,17 +16,46 @@ sys.path.append(dynamic_path)
 import yaml
 
 # --- Loader ---
+# def load_img(data_folder: str) -> Tuple[List[str], List[str]]:
+#     left_img_path = sorted(
+#         glob(os.path.join(data_folder, "*_left.png")),
+#         key=lambda x: int(os.path.basename(x).split('_')[1].split('.')[0])
+#     )
+#     right_img_path = sorted(
+#         glob(os.path.join(data_folder, "*_right.png")),
+#         key=lambda x: int(os.path.basename(x).split('_')[1].split('.')[0])
+#     )
+#     return left_img_path, right_img_path
+# def load_img(data_folder: str) -> Tuple[List[str], List[str]]:
+#     left_img_path = sorted(
+#         glob(os.path.join(data_folder, "*_left.jpg")),
+#         key=lambda x: int(os.path.basename(x).split('_')[0])
+#     )
+#     right_img_path = sorted(
+#         glob(os.path.join(data_folder, "*_right.jpg")),
+#         key=lambda x: int(os.path.basename(x).split('_')[0])
+#     )
+#     return left_img_path, right_img_path
 def load_img(data_folder: str) -> Tuple[List[str], List[str]]:
+    """
+    Loads and sorts image file paths from a specified folder.
+
+    Args:
+        data_folder: The path to the directory containing the images.
+
+    Returns:
+        A tuple containing two lists of sorted image paths:
+        (left_image_paths, right_image_paths).
+    """
     left_img_path = sorted(
-        glob(os.path.join(data_folder, "left_*.png")),
-        key=lambda x: int(os.path.basename(x).split('_')[1].split('.')[0])
+        glob(os.path.join(data_folder, "*_left.png")),
+        key=lambda x: int(os.path.basename(x).split('_')[0])
     )
     right_img_path = sorted(
-        glob(os.path.join(data_folder, "right_*.png")),
-        key=lambda x: int(os.path.basename(x).split('_')[1].split('.')[0])
+        glob(os.path.join(data_folder, "*_right.png")),
+        key=lambda x: int(os.path.basename(x).split('_')[0])
     )
     return left_img_path, right_img_path
-
 
 def _get_dist_model(d, cam_model="plumb_bob"):
     return cam_model
@@ -75,12 +104,12 @@ def write_yaml(name, d, k, r, p, size, cam_model="plumb_bob"):
 
 
 if __name__=='__main__':
-    data_folder = os.path.join(repo_path, "image")
+    data_folder = os.path.join(repo_path, "scripts", "image")
     print(f"Data folder: {data_folder}")
     left_img_path, right_img_path = load_img(data_folder)
 
     # Internal corner of chessboard and dimension
-    board_dim = (10, 9)
+    board_dim = (5, 8)
     square_size = 0.01
 
     # find corner
