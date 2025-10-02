@@ -39,6 +39,27 @@ def load_img(data_folder: str) -> Tuple[List[str], List[str]]:
 def _get_dist_model(d, cam_model="plumb_bob"):
     return cam_model
 
+def resize_matrix(matrix, orig_size, new_size):
+    """
+    Resize the camera intrinsic matrix when the image size changes.
+
+    Args:
+        matrix: The original camera intrinsic matrix (3x3).
+        orig_size: Tuple of original image size (width, height).
+        new_size: Tuple of new image size (width, height).
+
+    Returns:
+        The resized camera intrinsic matrix (3x3).
+    """
+    scale_x = new_size[0] / orig_size[0]
+    scale_y = new_size[1] / orig_size[1]
+    resized_matrix = matrix.copy()
+    resized_matrix[0, 0] *= scale_x  # fx
+    resized_matrix[1, 1] *= scale_y  # fy
+    resized_matrix[0, 2] *= scale_x  # cx
+    resized_matrix[1, 2] *= scale_y  # cy
+    return resized_matrix
+
 # Save calib parameter in yaml file (ROS)
 def write_yaml(name, d, k, r, p, size, cam_model="plumb_bob"):
     def format_mat(x, precision):
@@ -83,7 +104,7 @@ def write_yaml(name, d, k, r, p, size, cam_model="plumb_bob"):
 
 
 if __name__=='__main__':
-    data_folder = os.path.join(repo_path, "scripts", "Images_GStream")
+    data_folder = os.path.join(repo_path, "dvrk_camera_stereo_calibration", "Images_GStream")
     print(f"Data folder: {data_folder}")
     left_img_path, right_img_path = load_img(data_folder)
 
@@ -183,6 +204,7 @@ if __name__=='__main__':
     retL2, mtxL2, distL2, rvecsL2, tvecsL2 = cv2.calibrateCamera(
         filtered_objpoints, filtered_imgpointsL, img_shape, None, None,
     )
+
     retR2, mtxR2, distR2, rvecsR2, tvecsR2 = cv2.calibrateCamera(
         filtered_objpoints, filtered_imgpointsR, img_shape, None, None,
     )
@@ -215,9 +237,21 @@ if __name__=='__main__':
         camMatL, distCoefL, camMatR, distCoefR, img_shape, R, T, alpha=0
     )
 
+    # # Resize to 1080x720
+    # new_size = (1080, 720)
+    # camMatLresize = resize_matrix(camMatL, img_shape, new_size)
+    # camMatRresize = resize_matrix(camMatR, img_shape, new_size)
+    #     # Stereo Rectification
+    # R1Resize, R2Resize, P1Resize, P2Resize, QResize, roi1Resize, roi2Resize = cv2.stereoRectify(
+    #     camMatLresize, distCoefL, camMatRresize, distCoefR, new_size, R, T, alpha=0
+    # )
+
     # YAML saving for ROS
     write_yaml("left", distCoefL, camMatL, R1, P1, img_shape)
     write_yaml("right", distCoefR, camMatR, R2, P2, img_shape)
+    # write_yaml("left_resized", distCoefL, camMatLresize, R1Resize, P1Resize, new_size)
+    # write_yaml("right_resized", distCoefR, camMatRresize, R2Resize, P2Resize, new_size)
+    print("YAML files saved for ROS.")
 
     # save to json
     calib_data = {

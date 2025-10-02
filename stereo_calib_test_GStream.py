@@ -63,7 +63,7 @@ def draw_epipolar_lines(image, num_lines=10):
     return image
 
 if __name__=='__main__':
-    data_folder = os.path.join(repo_path, "scripts", "Images_GStream")
+    data_folder = os.path.join(repo_path, "dvrk_camera_stereo_calibration", "Images_GStream")
     left_img_path, right_img_path = load_img(data_folder)
     param_path = os.path.join(dynamic_path, 'stereo_calib_params.json')
     cameraMatrixL, distCoeffsL, cameraMatrixR, distCoeffsR, R, T, E, F = load_param(param_path)

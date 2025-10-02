@@ -14,7 +14,13 @@ def make_pipeline(device_number):
     """
     Create a GStreamer pipeline that captures video from a DeckLink device and sends it to an appsink.
     """
-    pipeline_str = f"decklinkvideosrc device-number={device_number} ! videoconvert ! video/x-raw,format=BGR ! appsink name=appsink"
+    pipeline_str = (
+    f"decklinkvideosrc device-number={device_number} ! "
+    "videoconvert ! "
+    "videocrop left=310 right=310 top=28 bottom=28 ! "
+    "video/x-raw, format=BGR ! "
+    "appsink name=appsink"
+    )
     pipeline = Gst.parse_launch(pipeline_str)
     appsink = pipeline.get_by_name("appsink")
     appsink.set_property("emit-signals", True)
@@ -42,18 +48,18 @@ def main():
     os.makedirs(save_dir, exist_ok=True)
 
     # Create two pipelines
-    pipeline1, appsink1 = make_pipeline(0)
-    pipeline2, appsink2 = make_pipeline(1)
+    pipeline1, appsink1 = make_pipeline(1)
+    pipeline2, appsink2 = make_pipeline(0)
 
     # Start the pipelines
     pipeline1.set_state(Gst.State.PLAYING)
     pipeline2.set_state(Gst.State.PLAYING)
 
-    print("Press ENTER to save frames (up to 25). Press 'q' to quit.")
+    print("Press ENTER to save frames (up to 33). Press 'q' to quit.")
     count = 0
 
     try:
-        while count < 25:
+        while count < 33:
             # Retrieve the current frames
             sample1 = appsink1.emit("pull-sample")
             sample2 = appsink2.emit("pull-sample")
@@ -62,11 +68,14 @@ def main():
                 continue
 
             frame1 = gst_to_opencv(sample1)
+            #frame1 = cv2.resize(frame1, (1300, 1024))
             frame2 = gst_to_opencv(sample2)
-
+            #frame2 = cv2.resize(frame2, (1300, 1024))
+            w, h = frame1.shape[1], frame1.shape[0]
+            #print(f"Frame size: {w}x{h}")
             # Show the frames in a window
-            cv2.imshow("Camera 0", frame1)
-            cv2.imshow("Camera 1", frame2)
+            cv2.imshow("Camera left", frame1)
+            cv2.imshow("Camera right", frame2)
 
             key = cv2.waitKey(1) & 0xFF
 
