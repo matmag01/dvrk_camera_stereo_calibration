@@ -48,8 +48,8 @@ def main():
     os.makedirs(save_dir, exist_ok=True)
 
     # Create two pipelines
-    pipeline1, appsink1 = make_pipeline(0)
-    pipeline2, appsink2 = make_pipeline(1)
+    pipeline1, appsink1 = make_pipeline(1)
+    pipeline2, appsink2 = make_pipeline(0)
 
     # Start the pipelines
     pipeline1.set_state(Gst.State.PLAYING)
@@ -74,8 +74,8 @@ def main():
             w, h = frame1.shape[1], frame1.shape[0]
             #print(f"Frame size: {w}x{h}")
             # Show the frames in a window
-            cv2.imshow("Camera 0", frame1)
-            cv2.imshow("Camera 1", frame2)
+            cv2.imshow("Camera left", frame1)
+            cv2.imshow("Camera right", frame2)
 
             key = cv2.waitKey(1) & 0xFF
 
