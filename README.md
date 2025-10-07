@@ -7,8 +7,8 @@ It allows you to calibrate stereo endoscope cameras, save calibration results in
 If you want to use ROS Subscriber use the scripts in the folder  ```ROS```, otherwise use the script in folder  ```GStream```.
 
 
-- Capture images of a checkerboard pattern with both left and right cameras with  ```save_sync_images.py```
-- Run calibration with  ```stereo_calib.py```. Good results if projection error is below 1.
+- Capture images of a checkerboard pattern with both left and right cameras with  ```save_sync_images.py``` 
+- Run calibration with  ```stereo_calib.py```. Good results if projection error is below 0.5.
 - Output files:
   - ```left.yaml``` and ```right.yaml```: calibration files in ROS format
   - ```stereo_calib_params.json```: JSON file with camera matrices, distortion, R, T, E, F, baseline and projection error (rms)
