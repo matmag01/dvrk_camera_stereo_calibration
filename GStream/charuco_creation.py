@@ -7,7 +7,7 @@ from io import BytesIO
 from PIL import Image as PILImage
 
 # =========================
-# PARAMETRI BOARD
+# BOARD
 # =========================
 squaresX, squaresY = 5, 7
 squareLength_mm = 15
@@ -18,7 +18,7 @@ dpi = 300
 output_pdf = "charuco_board_A4_1to1_5x7_15mm_9mm.pdf"
 
 # =========================
-# CREA CHARUCO BOARD
+# CREATION OF CHARUCO BOARD
 # =========================
 dictionary = aruco.getPredefinedDictionary(aruco.DICT_4X4_1000)
 
@@ -37,16 +37,16 @@ except AttributeError:
                                       markerLength,
                                       dictionary)
 
-# Dimensioni fisiche board
+# Dimension board
 board_w_mm = squaresX * squareLength_mm + 2 * margin_mm
 board_h_mm = squaresY * squareLength_mm + 2 * margin_mm
 
-# Conversione mm → pixel
+# Conversion mm → pixel
 px_w = int(board_w_mm / 25.4 * dpi)
 px_h = int(board_h_mm / 25.4 * dpi)
 margin_px = int(margin_mm / 25.4 * dpi)
 
-# Render immagine
+# Render image
 if hasattr(board, "generateImage"):
     img = board.generateImage((px_w, px_h),
                               marginSize=margin_px,
@@ -56,16 +56,14 @@ else:
                      marginSize=margin_px,
                      borderBits=1)
 
-# =========================
-# CONVERSIONE IN MEMORIA
-# =========================
+
 pil_img = PILImage.fromarray(img)
 buffer = BytesIO()
 pil_img.save(buffer, format="PNG")
 buffer.seek(0)
 
 # =========================
-# CREA PDF A4 1:1
+#  PDF A4 1:1
 # =========================
 doc = SimpleDocTemplate(output_pdf, pagesize=A4)
 
