@@ -5,7 +5,7 @@ It allows you to calibrate stereo endoscope cameras, save calibration results in
 
 ## Usage
 If you want to use ROS Subscriber use the scripts in the folder  ```ROS```, otherwise use the script in folder  ```GStream```.
-
+You can also calibrate your stereo camera using a ChArUco Board. 
 
 - Capture images of a checkerboard pattern with both left and right cameras with  ```save_sync_images.py``` 
 - Run calibration with  ```stereo_calib.py```. Good results if projection error is below 0.5.
